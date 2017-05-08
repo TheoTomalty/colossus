@@ -24,7 +24,7 @@ class MapObject(Surface):
     def print(self, image=None):
         if image is None:
             image = self.parent
-        image.blit(self, self.position)
+        image.blit(self.surface, self.position)
     
     def erase(self):
         flags.run_manager.display_manager.map.erase(self.position, self.get_size())

@@ -24,7 +24,6 @@ square_size = pixels_per_square * pixel_size
 
 pygame.init()
 title_font = pygame.font.SysFont('helveticaneuedeskinterface', 20)
-title_line_height = 40
 body_font = pygame.font.SysFont('helveticaneuedeskinterface', 15)
 
 run_manager = None

@@ -2,11 +2,14 @@ import pygame
 import flags
 from ops import *
 
-class Surface(pygame.Surface):
+
+class Surface(object):
     def __init__(self, size=None, position=(0, 0), parent=None, shape=None, **kwargs):
         if shape is not None:
             size = (len(shape)*flags.pixel_size, len(shape[0])*flags.pixel_size)
-        super().__init__(size, **kwargs)
+        if size is None:
+            size = (0, 0)
+        self.surface = pygame.Surface(size, **kwargs)
         
         self.position = position
         self.parent = parent
@@ -14,6 +17,14 @@ class Surface(pygame.Surface):
         
         if shape is not None:
             self.load_pixels(shape)
+    
+    def __getattr__(self, item):
+        try:
+            attr = getattr(self.surface, item)
+        except AttributeError:
+            attr = getattr(self, item)
+        
+        return attr
     
     @property
     def rect(self):
@@ -32,7 +43,7 @@ class Surface(pygame.Surface):
         return self.get_size()
     
     def print(self):
-        self.parent.blit(self, self.position)
+        self.parent.blit(self.surface, self.position)
     
     def render(self):
         ancestor = self
@@ -59,7 +70,7 @@ class Surface(pygame.Surface):
         return position
     
     def load_pixels(self, shape):
-        pixel_array = pygame.PixelArray(self)
+        pixel_array = pygame.PixelArray(self.surface)
         
         for row, i in zip(shape, range(len(shape))):
             for j in range(len(row)):

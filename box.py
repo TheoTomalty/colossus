@@ -10,7 +10,7 @@ class Box(Surface):
         
         self.button_bar = Surface(
             parent=self,
-            position=(0, self.get_height() - flags.square_size),
+            position=(0, self.height - flags.square_size),
             size=(flags.bar_size, flags.square_size)
         )
         self.body = Page(self)
@@ -73,21 +73,17 @@ class Page(Surface):
     def __init__(self, parent=None, title='Page'):
         super().__init__(
             parent=parent,
-            position=(0, 0),
             size=(flags.bar_size, flags.box_size - flags.square_size),
         )
         
         self.title = title
-        self.title_block = Text(parent=self,
-            size=(self.width, flags.title_line_height),
-            position=(0, 0),
+        self.title_block = Text(
+            parent=self,
             font=flags.title_font,
         )
         self.body_block = Text(
-            parent=self, 
-            size=(self.width, self.height - flags.title_line_height), 
-            position=(0, flags.title_line_height), 
-            font=flags.body_font,
+            parent=self,
+            justify_under=self.title_block,
             no_margin='top',
             margin=20
         )
@@ -100,4 +96,4 @@ class Page(Surface):
     
     @property
     def body(self):
-        return 'body'
+        return 'body '*50
